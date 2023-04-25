@@ -1,7 +1,9 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
+const cors = require('cors')
 app.use(express.json())
+app.use(cors())
 let data = [
     { 
       "id": 1,
@@ -74,5 +76,5 @@ app.post("/api/persons", (req, res) => {
     res.status(200).json(person)
 })
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 app.listen(PORT, () => console.log(`http://localhost:${PORT}/`))
