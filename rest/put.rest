@@ -1,0 +1,10 @@
+# replace a person
+# :id replacement example: 644a180df3bf6a9476eb95cb
+
+PUT http://localhost:3000/api/persons/:id HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Mary Poppendeick",
+    "number": "23-31-43565499"
+}

@@ -1,0 +1,4 @@
+# delete a person
+# :id replacement example: 644a180df3bf6a9476eb95cb
+
+DELETE http://localhost:3000/api/persons/:id

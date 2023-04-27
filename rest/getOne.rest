@@ -1,0 +1,3 @@
+# get one person
+# :id replacement example: 644a180df3bf6a9476eb95cb
+GET http://localhost:3000/api/persons/:id
