@@ -1,5 +1,5 @@
-require("dotenv").config()
-const Person = require("./models/person")
+require('dotenv').config()
+const Person = require('./models/person')
 
 const express = require('express')
 const morgan = require('morgan')
@@ -11,92 +11,92 @@ app.use(express.static('dist'))
 app.use(express.json())
 
 // request logger middleware
-morgan.token("data", (req) => req.method === "POST"
-  ? JSON.stringify(req.body) 
-  : " "
+morgan.token('data', (req) => req.method === 'POST'
+	? JSON.stringify(req.body)
+	: ' '
 )
-app.use(morgan(":method :url :status :res[content-length] - :response-time ms :data"))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
 // get data info
-app.get("/info", (req, res) => Person
-  .find({})
-  .then(data => res.send(`
+app.get('/info', (req, res) => Person
+	.find({})
+	.then(data => res.send(`
     <p>Phonebook has info for ${data.length} people</p>
     <p>${new Date()}</p>
   `)
-))
+	))
 
 // get all persons
-app.get("/api/persons", (req, res) => 
-  Person
-    .find({})
-    .then(persons => res.status(200).json(persons))
+app.get('/api/persons', (req, res) =>
+	Person
+		.find({})
+		.then(persons => res.status(200).json(persons))
 )
 
 // get one person
-app.get("/api/persons/:id", (req, res, next) => 
-  Person
-    .findById(req.params.id)
-    .then(person => person
-      ? res.status(200).json(person)
-      : res.status(404).end()
-    )
-    .catch(error => next(error))
+app.get('/api/persons/:id', (req, res, next) =>
+	Person
+		.findById(req.params.id)
+		.then(person => person
+			? res.status(200).json(person)
+			: res.status(404).end()
+		)
+		.catch(error => next(error))
 )
 
 // add a person
-app.post("/api/persons", (req, res, next) => {
-  const body = req.body
+app.post('/api/persons', (req, res, next) => {
+	const body = req.body
 
-  // if (!body.name || !body.number) return res.status(400).json({ 
-  //   error: "content missing" 
-  // })
+	// if (!body.name || !body.number) return res.status(400).json({
+	//   error: "content missing"
+	// })
 
-  const person = new Person({
-    name: body.name,
-    number: body.number
-  })
+	const person = new Person({
+		name: body.name,
+		number: body.number
+	})
 
-  person
-    .save()
-    .then(saved => res.status(200).json(saved))
-    .catch(error => next(error))
+	person
+		.save()
+		.then(saved => res.status(200).json(saved))
+		.catch(error => next(error))
 })
 
 // delete a person
-app.delete("/api/persons/:id", (req, res, next) => Person
-  .findByIdAndRemove(req.params.id)
-  .then(deleted => res.status(204).end())
-  .catch(error => next(error))
+app.delete('/api/persons/:id', (req, res, next) => Person
+	.findByIdAndRemove(req.params.id)
+	.then(() => res.status(204).end())
+	.catch(error => next(error))
 )
 
 // change a person
-app.put("/api/persons/:id", (req, res, next) => {
-  const body = req.body
+app.put('/api/persons/:id', (req, res, next) => {
+	const body = req.body
 
-  const person = {
-    name: body.name,
-    number: body.number,
-  }
+	const person = {
+		name: body.name,
+		number: body.number,
+	}
 
-  Person
-    .findByIdAndUpdate(req.params.id, person, { new: true })
-    .then(updated => res.status(200).json(updated))
-    .catch(error => next(error))
+	Person
+		.findByIdAndUpdate(req.params.id, person, { new: true })
+		.then(updated => res.status(200).json(updated))
+		.catch(error => next(error))
 })
 
 // error middleware
 const errorHandler = (error, req, res, next) => {
-  console.log(error.message)
-  
-  if (error.name === "CastError") return res.status(400).send({
-    error: "malformatted id"
-  })
-  if (error.name === "ValidationError") return res.status(400).send({
-    error: error.message
-  })
+	console.log(error.message)
 
-  next(error)
+	if (error.name === 'CastError') return res.status(400).send({
+		error: 'malformatted id'
+	})
+	if (error.name === 'ValidationError') return res.status(400).send({
+		error: error.message
+	})
+
+	next(error)
 }
 app.use(errorHandler)
 

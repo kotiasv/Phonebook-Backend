@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lintfix": "npx eslint --fix ."
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,7 @@
   },
   "homepage": "https://github.com/kotiasv/Phonebook-Backend#readme",
   "devDependencies": {
+    "eslint": "^8.39.0",
     "nodemon": "^2.0.22"
   },
   "dependencies": {
